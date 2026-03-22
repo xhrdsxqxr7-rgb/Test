@@ -3,7 +3,7 @@ import sys
 import json
 import requests
 import tkinter as tk
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageDraw
 from pynput import keyboard
 import winreg
 
@@ -81,15 +81,12 @@ MODIFIER_KEYS = {
 }
 
 def normalize_key(key):
-    # Модификаторы
     for name, variants in MODIFIER_KEYS.items():
         if key in variants:
             return name
-    # Специальные клавиши
     for name, k in SPECIAL_KEYS.items():
         if key == k:
             return name
-    # Обычные символы — игнорируем (зависят от раскладки)
     return None
 
 def parse_hotkey(hotkey_str):
@@ -128,7 +125,7 @@ class App:
         win = tk.Toplevel()
         win.title("Настройки")
         win.geometry("350x220")
-        tk.Label(win, text="Показ (напр. alt+space):").pack()
+        tk.Label(win, text="Показ (напр. shift):").pack()
         entry_show = tk.Entry(win)
         entry_show.insert(0, self.settings["hotkey_show"])
         entry_show.pack()
